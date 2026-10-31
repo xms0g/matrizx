@@ -12,7 +12,7 @@ rnd_byte:
     ld A,(random_seed)
     srl A
     jr nc, _save
-    xor 0B8h
+    xor $0B8
 _save:
     ld (random_seed), A
     ret

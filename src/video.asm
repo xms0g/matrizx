@@ -1,5 +1,5 @@
-SCREEN      equ 4000h
-ATTRIBUTES  equ 5800h
+SCREEN      equ $4000
+ATTRIBUTES  equ $5800
 
 ; ---------------
 ; A = char      ;

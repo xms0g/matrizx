@@ -1,3 +1,8 @@
+KEY_ENTER       equ $0D
+KEY_BACKSPACE   equ $08
+KEY_CAPS_SHIFT  equ $01
+KEY_SYMBOL      equ $02
+
 kb_poll:
     ld BC, $00FE
     in A, (C)
@@ -36,11 +41,11 @@ _key_pressed:
     ret
     
 kb_map:
-    db $FE, '#', 'Z', 'X', 'C', 'V'
+    db $FE, KEY_CAPS_SHIFT, 'Z', 'X', 'C', 'V'
     db $FD, 'A', 'S', 'D', 'F', 'G'
     db $FB, 'Q', 'W', 'E', 'R', 'T'
     db $F7, '1', '2', '3', '4', '5'
     db $EF, '0', '9', '8', '7', '6'
     db $DF, 'P', 'O', 'I', 'U', 'Y'
-    db $BF, '*', 'L', 'K', 'J', 'H'
-    db $7F, ' ', '#', 'M', 'N', 'B'
+    db $BF, KEY_ENTER, 'L', 'K', 'J', 'H'
+    db $7F, ' ', KEY_SYMBOL, 'M', 'N', 'B'

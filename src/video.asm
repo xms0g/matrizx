@@ -89,7 +89,7 @@ clr_screen:
 
     ; Reset ROM print position
     ld BC, $1821       ; B=24, C=33 (inverted coordinates)
-    ld HL, $4000       ; Top-left display file address
+    ld HL, SCREEN
     ld ($5C88), BC     ; S_POSN
     ld ($5C84), HL     ; DF_CC
 
@@ -105,7 +105,7 @@ init_video:
     ldir
 
     ; Green ink on black paper
-    ld A, 04h
+    ld A, $04
     ld ($5C8D), A   ; ATTR_P
     ld ($5C8F), A   ; ATTR_T
     ret

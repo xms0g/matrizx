@@ -12,9 +12,6 @@ start:
     
     ld BC, init_msg
     call print_str
-    
-    ld BC, shell
-    call print_str
 
 main_loop:
     call term_run

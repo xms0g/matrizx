@@ -1,4 +1,6 @@
 term_run:
+    ld BC, shell
+    call print_str
 _loop:
     call kb_poll
     jr z, _loop

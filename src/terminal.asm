@@ -1,9 +1,10 @@
-tm_run:
+term_run:
 _loop:
     call kb_poll
     jr z, _loop
     
     call kb_read
+    call print_char
 
 _wait_release:
     call kb_poll

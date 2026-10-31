@@ -17,7 +17,7 @@ start:
     call print_str
 
 main_loop:
-    call tm_run
+    call term_run
 
 init_msg:
     defb "MATRIZX v0.1", 13

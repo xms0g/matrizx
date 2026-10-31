@@ -4,7 +4,6 @@
 
     include "random.asm"
     include "video.asm"
-    include "rain.asm"
     include "commands.asm"
     include "terminal.asm"
     include "keyboard.asm"
@@ -12,7 +11,6 @@
 start:
     call init_video
     call init_rnd
-    call init_rain
     
     ld BC, init_msg
     call print_str

@@ -1,8 +1,7 @@
 INPUT_SIZE  equ 32
 CMD_HELP    equ 1
 CMD_CLR     equ 2
-CMD_RAIN    equ 3
-CMD_RAND    equ 4
+CMD_RAND    equ 3
 
 term_run:
     ld BC, shell
@@ -104,7 +103,7 @@ _next:
     ; DE now points to the next command
     ld A, (DE)
     or A
-    jr z, _unknown
+    jr z, _cmd_unknown
     jr _next_cmd
 
 _found:
@@ -117,9 +116,6 @@ _found:
     cp CMD_CLR
     jr z, _cmd_clr
 
-    cp CMD_RAIN
-    jr z, _cmd_rain
-
     cp CMD_RAND
     jr z, _cmd_rand
 
@@ -129,14 +125,10 @@ _cmd_help:
 _cmd_clr:
     call cmd_clr
     ret
-_cmd_rain:
-    call cmd_rain
-    ret
 _cmd_rand:
     call cmd_rand
     ret
-
-_unknown:
+_cmd_unknown:
     ld BC, unknown
     call print_str
     ret
@@ -144,7 +136,6 @@ _unknown:
 cmd_map:
     db "HELP", 0, CMD_HELP
     db "CLR", 0, CMD_CLR
-    db "RAIN", 0, CMD_RAIN
     db "RAND", 0, CMD_RAND
 
 unknown:

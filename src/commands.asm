@@ -34,8 +34,5 @@ cmd_rand:
 
 help_str:
     defb 13, 13, "AVAILABLE COMMANDS:", 13, 13
-    defb "HELP  Show commands", 13
-    defb "CLS   Clear screen", 13
-    defb "PEEK  Read memory address", 13
-    defb "POKE  Write memory address", 13
-    defb "RAND  Generate random byte", 13, 0
+    defb "HELP  CLS  RAND", 13
+    defb "PEEK  POKE", 13, 0

@@ -14,13 +14,13 @@ _loop:
     
     call kb_read
     cp KEY_ENTER
-    jr z, _cmd_exe
+    jr z, _parse_cmd
     
     call term_input
     jr _wait_release
     
-_cmd_exe:
-    call cmd_execute
+_parse_cmd:
+    call parse_cmd
     ld BC, shell
     call print_str
 
@@ -60,7 +60,7 @@ term_input:
     call print_char
     ret
 
-cmd_execute:
+parse_cmd:
     ld A, (input_length)
     ld E, A
     ld D, 0
@@ -70,14 +70,14 @@ cmd_execute:
     ; put null terminator
     ld (HL), 0 
 
-    call command_execute
+    call cmp_command
 
     ; Clear input buffer
     xor A
     ld (input_length), A
     ret
 
-command_execute:
+cmp_command:
     ld DE, cmd_map
 _next_cmd:
      ld HL, input_buffer
@@ -88,7 +88,7 @@ _cmp_loop:
     jr nz, _next
 
     or A
-    jr z, _found
+    jr z, _dispatch
 
     inc HL
     inc DE
@@ -105,10 +105,10 @@ _next:
     ; DE now points to the next command
     ld A, (DE)
     or A
-    jr z, _cmd_unknown
+    jr z, _unknown
     jr _next_cmd
 
-_found:
+_dispatch:
     inc DE
     ld A, (DE)
 
@@ -142,7 +142,7 @@ _cmd_poke:
 _cmd_rand:
     call cmd_rand
     ret
-_cmd_unknown:
+_unknown:
     ld BC, unknown
     call print_str
     ret
@@ -152,7 +152,7 @@ cmd_map:
     db "CLS", 0, CMD_CLS
     db "PEEK", 0, CMD_PEEK
     db "POKE", 0, CMD_POKE
-    db "RAND", 0, CMD_RAND
+    db "RAND", 0, CMD_RAND, 0
 
 unknown:
     defb 13, "UNKNOWN COMMAND", 13, 0

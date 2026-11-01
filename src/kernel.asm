@@ -14,13 +14,13 @@ start:
     call init_rnd
     call init_rain
     
-    ld BC, init_msg
+    ld BC, head
     call print_str
 
 main_loop:
     call term_run
 
-init_msg:
+head:
     defb "MATRIZX v0.1", 13
     defb "Z80 CYBERNETIC SYSTEM", 13, 0
 

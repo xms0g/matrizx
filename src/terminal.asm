@@ -1,7 +1,9 @@
 INPUT_SIZE  equ 32
 CMD_HELP    equ 1
-CMD_CLR     equ 2
-CMD_RAND    equ 3
+CMD_CLS     equ 2
+CMD_PEEK    equ 3
+CMD_POKE    equ 4
+CMD_RAND    equ 5
 
 term_run:
     ld BC, shell
@@ -113,8 +115,14 @@ _found:
     cp CMD_HELP
     jr z, _cmd_help
 
-    cp CMD_CLR
-    jr z, _cmd_clr
+    cp CMD_CLS
+    jr z, _cmd_cls
+
+    cp CMD_PEEK
+    jr z, _cmd_peek
+
+    cp CMD_POKE
+    jr z, _cmd_poke
 
     cp CMD_RAND
     jr z, _cmd_rand
@@ -122,8 +130,14 @@ _found:
 _cmd_help:
     call cmd_help
     ret
-_cmd_clr:
-    call cmd_clr
+_cmd_cls:
+    call cmd_cls
+    ret
+_cmd_peek:
+    call cmd_peek
+    ret
+_cmd_poke:
+    call cmd_poke
     ret
 _cmd_rand:
     call cmd_rand
@@ -135,7 +149,9 @@ _cmd_unknown:
 
 cmd_map:
     db "HELP", 0, CMD_HELP
-    db "CLR", 0, CMD_CLR
+    db "CLS", 0, CMD_CLS
+    db "PEEK", 0, CMD_PEEK
+    db "POKE", 0, CMD_POKE
     db "RAND", 0, CMD_RAND
 
 unknown:

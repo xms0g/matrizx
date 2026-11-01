@@ -4,6 +4,7 @@ CMD_CLS     equ 2
 CMD_PEEK    equ 3
 CMD_POKE    equ 4
 CMD_RAND    equ 5
+CMD_RAIN    equ 6
 
 term_run:
     ld BC, shell
@@ -127,6 +128,9 @@ _dispatch:
     cp CMD_RAND
     jr z, _cmd_rand
 
+    cp CMD_RAIN
+    jr z, _cmd_rain
+
 _cmd_help:
     call cmd_help
     ret
@@ -142,6 +146,10 @@ _cmd_poke:
 _cmd_rand:
     call cmd_rand
     ret
+_cmd_rain:
+    call cmd_rain
+    call clr_screen
+    ret
 _unknown:
     ld BC, unknown
     call print_str
@@ -152,7 +160,8 @@ cmd_map:
     db "CLS", 0, CMD_CLS
     db "PEEK", 0, CMD_PEEK
     db "POKE", 0, CMD_POKE
-    db "RAND", 0, CMD_RAND, 0
+    db "RAND", 0, CMD_RAND
+    db "RAIN", 0, CMD_RAIN, 0
 
 unknown:
     defb 13, "UNKNOWN COMMAND", 13, 0

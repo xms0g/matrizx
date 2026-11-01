@@ -1,5 +1,8 @@
 SCREEN      equ $4000
 ATTRIBUTES  equ $5800
+ROM_FONT    equ $3D00
+COLUMNS     equ 32
+ROWS        equ 24
 
 ; ---------------
 ; A = char      ;

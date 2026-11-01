@@ -32,7 +32,11 @@ cmd_rand:
     call print_byte
     ret
 
+cmd_rain:
+    call rain_run
+    ret
+
 help_str:
     defb 13, 13, "AVAILABLE COMMANDS:", 13, 13
     defb "HELP  CLS  RAND", 13
-    defb "PEEK  POKE", 13, 0
+    defb "PEEK  POKE RAIN", 13, 0

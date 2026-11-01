@@ -81,7 +81,7 @@ parse_cmd:
 cmp_command:
     ld DE, cmd_map
 _next_cmd:
-     ld HL, input_buffer
+    ld HL, input_buffer
 
 _cmp_loop:
     ld A, (DE)

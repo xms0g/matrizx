@@ -1,3 +1,5 @@
+BYTE_LENGTH equ 4
+
 ;-------------------------------------------;
 ; Input:                                    ;
 ;   HL = address of null-terminated string  ;
@@ -49,3 +51,78 @@ _next:
 _done:
     ex DE, HL
     ret
+
+;-------------------------------------------;
+; Input:                                    ;
+;   A = 8-bit integer to convert to string ;
+;                                           ;
+; Output:                                   ;
+;   DE = address of null-terminated string  ;
+;                                           ;
+; Clobbers: AF, BC, DE                      ;
+;-------------------------------------------;
+str_itoa:
+    ld B, A
+    ld C, 0
+    ld DE, byte_str
+_hundreds:
+    ld A, B
+    cp 100
+    jr c, _tens
+
+    sub 100
+    ld B, A
+    inc C
+    jr _hundreds
+
+_tens:
+    ld A, C
+    or A
+    jr z, _print_tens
+
+    add A, '0'
+    ld (DE), A
+    inc DE
+
+_print_tens:
+    ld C, 0
+_tens_loop:
+    ld A, B
+    cp 10
+    jr c, _units
+
+    sub 10
+    ld B, A
+    inc C
+    jr _tens_loop
+
+_units:
+    ld A, C
+    or A
+    jr nz, _print_tens_digit
+
+    ; Print units
+    ld A, B
+    add A, '0'
+    ld (DE), A
+    inc DE
+
+    jr _done
+_print_tens_digit:
+    ld A, C
+    add A, '0'
+    ld (DE), A
+    inc DE
+
+    ld A, B
+    add A, '0'
+    ld (DE), A
+    inc DE
+_done:
+    xor A
+    ld (DE), A
+    ld DE, byte_str
+    ret
+
+byte_str:
+    defs BYTE_LENGTH, 0

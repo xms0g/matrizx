@@ -187,7 +187,10 @@ _cmd_peek:
     ld A, 13
     call print_char
     call mem_peek
-    call print_byte
+    call str_itoa
+    ld B, D
+    ld C, E
+    call print_str
     ret
 _cmd_poke:
     call mem_poke
@@ -196,7 +199,10 @@ _cmd_rand:
     ld A, 13
     call print_char
     call rnd_byte
-    call print_byte
+    call str_itoa
+    ld B, D
+    ld C, E
+    call print_str
     ret
 _cmd_rain:
     call rain_run

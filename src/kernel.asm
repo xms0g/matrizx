@@ -6,7 +6,7 @@
     include "video.asm"
     include "rain.asm"
     include "string.asm"
-    include "command.asm"
+    include "memory.asm"
     include "terminal.asm"
     include "keyboard.asm"
     

@@ -133,20 +133,20 @@ _p_2nd_arg:
     ; put null terminator for first arg
     xor A
     ld (BC), A
-    
+
     ld BC, cmd_arg2
     jr _p_loop
 _args_done:
     ld HL, cmd_arg1
     push DE
-    call atoi
+    call str_atoi
     pop DE
     
     ; HL now contains the first argument as a 16-bit integer
     push HL
     push DE
     ld HL, cmd_arg2
-    call atoi
+    call str_atoi
     
     ld B, H
     ld C, L
@@ -177,22 +177,29 @@ _dispatch:
     jr z, _cmd_rain
 
 _cmd_help:
-    call cmd_help
+    ld BC, help_str
+    call print_str
     ret
 _cmd_cls:
-    call cmd_cls
+    call clr_screen
     ret
 _cmd_peek:
-    call cmd_peek
+    ld A, 13
+    call print_char
+    call mem_peek
+    call print_byte
     ret
 _cmd_poke:
-    call cmd_poke
+    call mem_poke
     ret
 _cmd_rand:
-    call cmd_rand
+    ld A, 13
+    call print_char
+    call rnd_byte
+    call print_byte
     ret
 _cmd_rain:
-    call cmd_rain
+    call rain_run
     call clr_screen
     ret
 _unknown:
@@ -207,6 +214,11 @@ cmd_map:
     db "POKE", 0, CMD_POKE
     db "RAND", 0, CMD_RAND
     db "RAIN", 0, CMD_RAIN, 0
+
+help_str:
+    defb 13, 13, "AVAILABLE COMMANDS:", 13, 13
+    defb "HELP  CLS  RAND", 13
+    defb "PEEK  POKE RAIN", 13, 0
 
 unknown:
     defb 13, "UNKNOWN COMMAND", 13, 0

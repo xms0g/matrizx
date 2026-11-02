@@ -160,16 +160,16 @@ advance_column:
     pop IY
     ret
 
-; --------------------------------------------------
-; Draw one character cell
-;
-; Inputs:
-;   draw_char = ROM character code
-;   draw_row  = character row, 0..23
-;   draw_col  = character column, 0..31
-;   draw_attr = Spectrum color attribute
-;
-; --------------------------------------------------
+; --------------------------------------------------;
+; Draw one character cell                           ;
+;                                                   ;
+; Inputs:                                           ;
+;   draw_char = ROM character code                  ;
+;   draw_row  = character row, 0..23                ;
+;   draw_col  = character column, 0..31             ;
+;   draw_attr = Spectrum color attribute            ;
+;                                                   ;
+; --------------------------------------------------;
 
 draw_cell:
     ld A, (draw_row)

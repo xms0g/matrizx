@@ -19,11 +19,10 @@ cmd_peek:
 
 ;----------------
 ; HL=addr       ;
-; D=value       ;
+; BC=value      ;
 ;---------------;
 cmd_poke:
-    ld A, D
-    ld (HL), A
+    ld (HL), C
     ret
 
 cmd_rand:

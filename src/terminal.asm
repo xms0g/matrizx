@@ -114,20 +114,45 @@ _next:
     jr _next_cmd
 
 _parse_arg:
-    ld BC, cmd_arg
+    ld BC, cmd_arg1
 _p_loop:
     inc HL
     ; HL now points to the arg
     ld A, (HL)
+    or A
+    jr z, _args_done
+
+    cp KEY_SPACE
+    jr z, _p_2nd_arg
+    
     ld (BC), A
     inc BC
-    or A
-    jr nz, _p_loop
 
-    ld HL, cmd_arg
+    jr _p_loop
+_p_2nd_arg:
+    ; put null terminator for first arg
+    xor A
+    ld (BC), A
+    
+    ld BC, cmd_arg2
+    jr _p_loop
+_args_done:
+    ld HL, cmd_arg1
     push DE
     call atoi
     pop DE
+    
+    ; HL now contains the first argument as a 16-bit integer
+    push HL
+    push DE
+    ld HL, cmd_arg2
+    call atoi
+    
+    ld B, H
+    ld C, L
+    
+    pop DE
+    pop HL
 
 _dispatch:
     inc DE
@@ -195,5 +220,8 @@ input_buffer:
 input_length:
     db 0
 
-cmd_arg:
+cmd_arg1:
+    defs ADDR_LENGTH, 0
+
+cmd_arg2:
     defs ADDR_LENGTH, 0

@@ -1,16 +1,16 @@
 ASM=pasmo
-SRC=src/kernel.asm
+SRC=src/main.asm
 BUILD=build
-TAP=build/kernel.tap
+TAP=build/matrizx.tap
 AFLAGS=--tapbas --alocal
 
 .PHONY: all clean
 
 all: $(TAP)
 
-$(TAP): $(SRC) $(wildcard src/*.asm src/*.inc)
+$(TAP): $(SRC) $(wildcard src/*.asm)
 	mkdir -p $(BUILD)
-	cd src && $(ASM) $(AFLAGS) kernel.asm ../$(TAP)
+	cd src && $(ASM) $(AFLAGS) main.asm ../$(TAP)
 
 clean:
 	rm -rf $(TAP)

@@ -11,76 +11,17 @@ print_char:
     rst $10
     ret
 ; ---------------
-; BC = str      ;
+; HL=str      ;
 ; ---------------
 print_str:
 _loop:
-    ld A, (BC)
+    ld A, (HL)
     cp 0
     jr z, _done
     call print_char
-    inc BC
+    inc HL
     jr _loop
 _done:
-    ret
-
-; ---------------
-; A = byte      ;
-; ---------------
-print_byte:
-    ld B, A
-
-    ; Print hundreds
-    ld C, 0
-_hundreds:
-    ld A, B
-    cp 100
-    jr c, _tens
-
-    sub 100
-    ld B, A
-    inc C
-    jr _hundreds
-
-_tens:
-    ld A, C
-    or A
-    jr z, _print_tens
-
-    add A, '0'
-    call print_char
-
-_print_tens:
-    ld C, 0
-_tens_loop:
-    ld A, B
-    cp 10
-    jr c, _units
-
-    sub 10
-    ld B, A
-    inc C
-    jr _tens_loop
-
-_units:
-    ld A, C
-    or A
-    jr nz, _print_tens_digit
-
-    ; Print units
-    ld A, B
-    add A, '0'
-    call print_char
-    ret
-
-_print_tens_digit:
-    ld A, C
-    add A, '0'
-    call print_char
-
-    ld A, B
-    add A, '0'
-    call print_char
     ret
 
 clr_screen:

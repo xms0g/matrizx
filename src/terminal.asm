@@ -8,7 +8,7 @@ CMD_RAND    equ 5
 CMD_RAIN    equ 6
 
 term_run:
-    ld BC, shell
+    ld HL, shell
     call print_str
 _loop:
     call kb_poll
@@ -23,7 +23,7 @@ _loop:
     
 _parse_cmd:
     call parse_cmd
-    ld BC, shell
+    ld HL, shell
     call print_str
 
 _wait_release:
@@ -177,7 +177,7 @@ _dispatch:
     jr z, _cmd_rain
 
 _cmd_help:
-    ld BC, help_str
+    ld HL, help_str
     call print_str
     ret
 _cmd_cls:
@@ -188,8 +188,6 @@ _cmd_peek:
     call print_char
     call mem_peek
     call str_itoa
-    ld B, D
-    ld C, E
     call print_str
     ret
 _cmd_poke:
@@ -200,8 +198,6 @@ _cmd_rand:
     call print_char
     call rnd_byte
     call str_itoa
-    ld B, D
-    ld C, E
     call print_str
     ret
 _cmd_rain:
@@ -209,7 +205,7 @@ _cmd_rain:
     call clr_screen
     ret
 _unknown:
-    ld BC, unknown
+    ld HL, unknown
     call print_str
     ret
 

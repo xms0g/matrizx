@@ -6,8 +6,6 @@ BYTE_LENGTH equ 4
 ;                                           ;
 ; Output:                                   ;
 ;   HL = parsed 16-bit integer              ;
-;                                           ;
-; Clobbers: AF, BC, DE                      ;
 ;-------------------------------------------;
 
 str_atoi:
@@ -54,17 +52,15 @@ _done:
 
 ;-------------------------------------------;
 ; Input:                                    ;
-;   A = 8-bit integer to convert to string ;
+;   A = 8-bit integer to convert to string  ;
 ;                                           ;
 ; Output:                                   ;
-;   DE = address of null-terminated string  ;
-;                                           ;
-; Clobbers: AF, BC, DE                      ;
+;   HL = address of null-terminated string  ;     
 ;-------------------------------------------;
 str_itoa:
     ld B, A
     ld C, 0
-    ld DE, byte_str
+    ld HL, byte_str
 _hundreds:
     ld A, B
     cp 100
@@ -78,13 +74,13 @@ _hundreds:
 _tens:
     ld A, C
     or A
-    jr z, _print_tens
+    jr z, _save_tens
 
     add A, '0'
-    ld (DE), A
-    inc DE
+    ld (HL), A
+    inc HL
 
-_print_tens:
+_save_tens:
     ld C, 0
 _tens_loop:
     ld A, B
@@ -99,29 +95,29 @@ _tens_loop:
 _units:
     ld A, C
     or A
-    jr nz, _print_tens_digit
+    jr nz, _save_tens_digit
 
-    ; Print units
+    ; Save units
     ld A, B
     add A, '0'
-    ld (DE), A
-    inc DE
+    ld (HL), A
+    inc HL
 
     jr _done
-_print_tens_digit:
+_save_tens_digit:
     ld A, C
     add A, '0'
-    ld (DE), A
-    inc DE
+    ld (HL), A
+    inc HL
 
     ld A, B
     add A, '0'
-    ld (DE), A
-    inc DE
+    ld (HL), A
+    inc HL
 _done:
     xor A
-    ld (DE), A
-    ld DE, byte_str
+    ld (HL), A
+    ld HL, byte_str
     ret
 
 byte_str:

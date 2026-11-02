@@ -15,14 +15,14 @@ start:
     call init_rnd
     call init_rain
     
-    ld BC, head
+    ld HL, head
     call print_str
 
 main_loop:
     call term_run
 
 head:
-    defb "MATRIZX v0.1", 13
+    defb 13, "MATRIZX v0.1", 13
     defb "Z80 CYBERNETIC SYSTEM", 13, 0
 
 end $8000

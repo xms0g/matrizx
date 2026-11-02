@@ -2,6 +2,7 @@ KEY_ENTER       equ $0D
 KEY_BACKSPACE   equ $08
 KEY_CAPS_SHIFT  equ $01
 KEY_SYMBOL      equ $02
+KEY_SPACE       equ $20
 
 kb_poll:
     ld BC, $00FE

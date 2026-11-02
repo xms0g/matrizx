@@ -8,27 +8,28 @@ cmd_cls:
     ret
 
 ;----------------
-; BC=addr       ;
+; HL=addr       ;
 ;---------------;
 cmd_peek:
-    ld A, (BC)
+    ld A, 13
+    call print_char
+    ld A, (HL)
+    call print_byte
     ret
 
 ;----------------
-; BC=addr       ;
+; HL=addr       ;
 ; D=value       ;
 ;---------------;
 cmd_poke:
     ld A, D
-    ld (BC), A
+    ld (HL), A
     ret
 
 cmd_rand:
-    call rnd_byte
-    ld B, A
     ld A, 13
     call print_char
-    ld A, B
+    call rnd_byte
     call print_byte
     ret
 

@@ -5,7 +5,8 @@
     include "random.asm"
     include "video.asm"
     include "rain.asm"
-    include "commands.asm"
+    include "string.asm"
+    include "command.asm"
     include "terminal.asm"
     include "keyboard.asm"
     

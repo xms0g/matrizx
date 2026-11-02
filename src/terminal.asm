@@ -1,4 +1,5 @@
 INPUT_SIZE  equ 32
+ADDR_LENGTH equ 6
 CMD_HELP    equ 1
 CMD_CLS     equ 2
 CMD_PEEK    equ 3
@@ -39,8 +40,8 @@ term_input:
 
     ; Check buffer capacity
     ld A, (input_length)
-    cp INPUT_SIZE
-    ret NC
+    cp INPUT_SIZE-1
+    ret nc
 
     ; HL = input_buffer + input_length
     ld HL, input_buffer
@@ -93,8 +94,11 @@ _cmp_loop:
 
     inc HL
     inc DE
+    
+    ld A, (HL)
+    cp KEY_SPACE
+    jr z, _parse_arg
     jr _cmp_loop
-
 _next:
     ; Skip the remaining characters of this command
     ld A, (DE)
@@ -108,6 +112,22 @@ _next:
     or A
     jr z, _unknown
     jr _next_cmd
+
+_parse_arg:
+    ld BC, cmd_arg
+_p_loop:
+    inc HL
+    ; HL now points to the arg
+    ld A, (HL)
+    ld (BC), A
+    inc BC
+    or A
+    jr nz, _p_loop
+
+    ld HL, cmd_arg
+    push DE
+    call atoi
+    pop DE
 
 _dispatch:
     inc DE
@@ -174,3 +194,6 @@ input_buffer:
 
 input_length:
     db 0
+
+cmd_arg:
+    defs ADDR_LENGTH, 0

@@ -111,11 +111,11 @@ _next:
     ; DE now points to the next command
     ld A, (DE)
     or A
-    jr z, _unknown
+    jp z, _unknown
     jr _next_cmd
 
 _parse_arg:
-    ld BC, cmd_arg1
+    ld BC, str_arg1
 _p_loop:
     inc HL
     ; HL now points to the arg
@@ -135,25 +135,20 @@ _p_2nd_arg:
     xor A
     ld (BC), A
 
-    ld BC, cmd_arg2
+    ld BC, str_arg2
     jr _p_loop
 _args_done:
-    ld HL, cmd_arg1
+    ld HL, str_arg1
     push DE
     call str_atoi
+    ld (n_arg1), HL
     pop DE
     
-    ; HL now contains the first argument as a 16-bit integer
-    push HL
     push DE
-    ld HL, cmd_arg2
+    ld HL, str_arg2
     call str_atoi
-    
-    ld B, H
-    ld C, L
-    
+    ld (n_arg2), HL
     pop DE
-    pop HL
 
 _dispatch:
     inc DE
@@ -187,16 +182,21 @@ _cmd_cls:
 _cmd_peek:
     ld A, 13
     call print_char
+
+    ld HL, (n_arg1)
     call mem_peek
     call str_itoa
     call print_str
     ret
 _cmd_poke:
+    ld HL, (n_arg1)
+    ld BC, (n_arg2)
     call mem_poke
     ret
 _cmd_rand:
     ld A, 13
     call print_char
+
     call rnd_byte
     call str_itoa
     call print_str
@@ -211,12 +211,12 @@ _unknown:
     ret
 
 cmd_map:
-    db "HELP", 0, CMD_HELP
-    db "CLS", 0, CMD_CLS
-    db "PEEK", 0, CMD_PEEK
-    db "POKE", 0, CMD_POKE
-    db "RAND", 0, CMD_RAND
-    db "RAIN", 0, CMD_RAIN, 0
+    defb "HELP", 0, CMD_HELP
+    defb "CLS", 0, CMD_CLS
+    defb "PEEK", 0, CMD_PEEK
+    defb "POKE", 0, CMD_POKE
+    defb "RAND", 0, CMD_RAND
+    defb "RAIN", 0, CMD_RAIN, 0
 
 help_str:
     defb 13, 13, "AVAILABLE COMMANDS:", 13, 13
@@ -233,10 +233,16 @@ input_buffer:
     defs INPUT_SIZE, 0
 
 input_length:
-    db 0
+    defb 0
 
-cmd_arg1:
+str_arg1:
     defs ADDR_LENGTH, 0
 
-cmd_arg2:
+n_arg1:
+    defw 0
+
+str_arg2:
     defs ADDR_LENGTH, 0
+
+n_arg2:
+    defw 0

@@ -6,6 +6,7 @@ CMD_PEEK    equ 3
 CMD_POKE    equ 4
 CMD_RAND    equ 5
 CMD_RAIN    equ 6
+CMD_UNKNOWN equ 7
 
 STR2INT MACRO str_val, n_val
     ld HL, str_val
@@ -32,6 +33,7 @@ _loop:
     
 _parse_cmd:
     call parse_cmd
+    call dispatch
     ld HL, shell
     call print_str
 
@@ -99,7 +101,7 @@ _cmp_loop:
     jr nz, _next
 
     or A
-    jr z, _dispatch
+    jr z, _done
 
     inc HL
     inc DE
@@ -122,8 +124,6 @@ _next:
     jr z, _unknown
     jr _next_cmd
 _unknown:
-    ld HL, unknown
-    call print_str
     ret
 
 _parse_arg:
@@ -150,10 +150,12 @@ _p_2nd_arg:
     ld BC, str_arg2
     jr _p_loop
 _arg_done:
-   STR2INT str_arg1, n_arg1
-   STR2INT str_arg2, n_arg2
+    STR2INT str_arg1, n_arg1
+    STR2INT str_arg2, n_arg2
+_done:
+    ret
 
-_dispatch:
+dispatch:
     inc DE
     ld A, (DE)
 
@@ -174,6 +176,9 @@ _dispatch:
 
     cp CMD_RAIN
     jr z, _cmd_rain
+
+    cp CMD_UNKNOWN
+    jr z, _unknown
 
 _cmd_help:
     ld HL, help_str
@@ -208,6 +213,10 @@ _cmd_rain:
     call rain_run
     call clr_screen
     ret
+_unknown:
+    ld HL, unknown
+    call print_str
+    ret
 
 cmd_map:
     defb "HELP", 0, CMD_HELP
@@ -216,6 +225,7 @@ cmd_map:
     defb "POKE", 0, CMD_POKE
     defb "RAND", 0, CMD_RAND
     defb "RAIN", 0, CMD_RAIN, 0
+    defb CMD_UNKNOWN
 
 help_str:
     defb 13, 13, "AVAILABLE COMMANDS:", 13, 13

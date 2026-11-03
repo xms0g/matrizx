@@ -46,7 +46,7 @@ _row_loop:
 
 _key_loop:
     srl A
-    jr nc, _key_pressed
+    jr nc, _pressed
 
     inc HL
     dec E
@@ -56,7 +56,7 @@ _key_loop:
     jr nz, _row_loop
     ret
 
-_key_pressed:
+_pressed:
     ld A, (HL)
     ret
     

@@ -249,25 +249,25 @@ attribute_ready:
     ret
 
 column:
-    db 0
+    defb 0
 
 head_row:
-    db 0
+    defb 0
 
 trail_step:
-	db 0
+	defb 0
 
 draw_char:
-    db 32
+    defb 32
 
 draw_row:
-    db 0
+    defb 0
 
 draw_col:
-    db 0
+    defb 0
 
 draw_attr:
-    db 0
+    defb 0
 
 heads:
     defs COLUMNS,0

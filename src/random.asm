@@ -18,4 +18,4 @@ _save:
     ret
 
 random_seed:
-    db 0
+    defb 0

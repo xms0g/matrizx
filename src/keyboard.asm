@@ -61,11 +61,11 @@ _pressed:
     ret
     
 kb_map:
-    db $FE, KEY_CAPS_SHIFT, 'Z', 'X', 'C', 'V'
-    db $FD, 'A', 'S', 'D', 'F', 'G'
-    db $FB, 'Q', 'W', 'E', 'R', 'T'
-    db $F7, '1', '2', '3', '4', '5'
-    db $EF, '0', '9', '8', '7', '6'
-    db $DF, 'P', 'O', 'I', 'U', 'Y'
-    db $BF, KEY_ENTER, 'L', 'K', 'J', 'H'
-    db $7F, ' ', KEY_SYMBOL, 'M', 'N', 'B'
+    defb $FE, KEY_CAPS_SHIFT, 'Z', 'X', 'C', 'V'
+    defb $FD, 'A', 'S', 'D', 'F', 'G'
+    defb $FB, 'Q', 'W', 'E', 'R', 'T'
+    defb $F7, '1', '2', '3', '4', '5'
+    defb $EF, '0', '9', '8', '7', '6'
+    defb $DF, 'P', 'O', 'I', 'U', 'Y'
+    defb $BF, KEY_ENTER, 'L', 'K', 'J', 'H'
+    defb $7F, ' ', KEY_SYMBOL, 'M', 'N', 'B'

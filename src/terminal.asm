@@ -7,6 +7,14 @@ CMD_POKE    equ 4
 CMD_RAND    equ 5
 CMD_RAIN    equ 6
 
+STR2INT MACRO str_val, n_val
+    ld HL, str_val
+    push DE
+    call str_atoi
+    ld (n_val), HL
+    pop DE
+ENDM
+
 term_run:
     ld HL, shell
     call print_str
@@ -34,7 +42,7 @@ _wait_release:
     jr _loop
 
 ;------------------------
-; A = input character   ;
+; A=char                ;
 ;------------------------
 term_input:
     ld B, A
@@ -111,8 +119,12 @@ _next:
     ; DE now points to the next command
     ld A, (DE)
     or A
-    jp z, _unknown
+    jr z, _unknown
     jr _next_cmd
+_unknown:
+    ld HL, unknown
+    call print_str
+    ret
 
 _parse_arg:
     ld BC, str_arg1
@@ -121,7 +133,7 @@ _p_loop:
     ; HL now points to the arg
     ld A, (HL)
     or A
-    jr z, _args_done
+    jr z, _arg_done
 
     cp KEY_SPACE
     jr z, _p_2nd_arg
@@ -137,18 +149,9 @@ _p_2nd_arg:
 
     ld BC, str_arg2
     jr _p_loop
-_args_done:
-    ld HL, str_arg1
-    push DE
-    call str_atoi
-    ld (n_arg1), HL
-    pop DE
-    
-    push DE
-    ld HL, str_arg2
-    call str_atoi
-    ld (n_arg2), HL
-    pop DE
+_arg_done:
+   STR2INT str_arg1, n_arg1
+   STR2INT str_arg2, n_arg2
 
 _dispatch:
     inc DE
@@ -204,10 +207,6 @@ _cmd_rand:
 _cmd_rain:
     call rain_run
     call clr_screen
-    ret
-_unknown:
-    ld HL, unknown
-    call print_str
     ret
 
 cmd_map:

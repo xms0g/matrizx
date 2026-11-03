@@ -5,10 +5,29 @@ KEY_SYMBOL      equ $02
 KEY_SPACE       equ $20
 
 kb_poll:
-    ld BC, $00FE
+    ld HL, kb_map
+    ld D, 8
+_loop:
+    exx
+    ld B, (HL)
+    ld C, $FE
     in A, (C)
     and $1F
     cp $1F
+    jr nz, _pressed
+    
+    inc HL
+    inc HL
+    inc HL
+    inc HL
+    inc HL
+
+    dec D
+    jr nz, _loop
+    xor A
+    ret
+_pressed:
+    ld A, 1
     ret
 
 kb_read:
@@ -27,14 +46,14 @@ _row_loop:
 
 _key_loop:
     srl A
-    jr NC, _key_pressed
+    jr nc, _key_pressed
 
     inc HL
     dec E
-    jr NZ, _key_loop
+    jr nz, _key_loop
 
     dec D
-    jr NZ, _row_loop
+    jr nz, _row_loop
     ret
 
 _key_pressed:

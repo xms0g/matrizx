@@ -12,6 +12,7 @@ term_run:
     call print_str
 _loop:
     call kb_poll
+    or A
     jr z, _loop
     
     call kb_read

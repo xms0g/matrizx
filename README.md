@@ -1,5 +1,5 @@
 # matrizx
-A tiny command-line environment for the ZX Spectrum, written in z80 assembly.
+A tiny command-line environment for the ZX Spectrum, written in Z80 assembly.
 You can download the `TAP` file from [itch.io](https://xms0g.itch.io/matrizx).
 
 <img src="assets/matrizx.gif" alt="image" width="700" height="auto">
